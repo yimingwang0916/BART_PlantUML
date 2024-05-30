@@ -1,35 +1,24 @@
-import React, { useState } from "react";
+# frontend.py
+from flask import Flask, render_template, request, jsonify
+import requests
 
-function App() {
-  const [description, setDescription] = useState("");
-  const [plantuml, setPlantuml] = useState("");
+app = Flask(__name__)
 
-  const generateDiagram = async () => {
-    const response = await fetch("/generate/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ description }),
-    });
-    const data = await response.json();
-    setPlantuml(data.plantuml);
-  };
+# Home route to render the input form
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-  return (
-    <div>
-      <h1>PlantUML Generator</h1>
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        rows="10"
-        cols="50"
-      ></textarea>
-      <br />
-      <button onClick={generateDiagram}>Generate</button>
-      <pre>{plantuml}</pre>
-    </div>
-  );
-}
+# Route to handle form submission and call FastAPI backend
+@app.route('/generate', methods=['POST'])
+def generate():
+    description = request.form['description']
+    response = requests.post('http://localhost:8000/generate/', json={'description': description})
+    if response.status_code == 200:
+        plantuml = response.json().get('plantuml', '')
+        return jsonify({'plantuml': plantuml})
+    else:
+        return jsonify({'error': 'Failed to generate PlantUML code'}), 500
 
-export default App;
+if __name__ == '__main__':
+    app.run(debug=True)
