@@ -1,14 +1,17 @@
+import json
+import pandas as pd
+import re
+import torch
+from transformers import BartTokenizer, BartForConditionalGeneration, Trainer, TrainingArguments
+from datasets import Dataset
+
 # Load the datasets
 train_dataset = Dataset.from_dict({'text': train_plantuml_codes})
 eval_dataset = Dataset.from_dict({'text': eval_plantuml_codes})
 
-# Load the GPT-2 tokenizer and model
-tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-model = GPT2LMHeadModel.from_pretrained('gpt2')
-
-# Add padding token
-tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-model.resize_token_embeddings(len(tokenizer))
+# Load the BART tokenizer and model
+tokenizer = BartTokenizer.from_pretrained('facebook/bart-large')
+model = BartForConditionalGeneration.from_pretrained('facebook/bart-large')
 
 # Data preprocessing function
 def tokenize_function(examples):
