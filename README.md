@@ -57,10 +57,3 @@ A trained BART model that can generate PlantUML code from scenario descriptions.
 2. **Develop a frontend interface using React**
    - The frontend interacts with the backend service to send input descriptions and display the generated PlantUML diagrams.
 
-## Getting Started
-
-### Clone the Repository
-
-```bash
-git clone <repository-url>
-cd <repository-directory>
