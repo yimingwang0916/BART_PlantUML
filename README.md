@@ -46,7 +46,7 @@ A trained BART model that can generate PlantUML code from scenario descriptions.
 
 **Objective:** Develop a frontend interface where users can input scenarios and view the generated PlantUML diagrams.
 
-**Technology:** ReactJS or NextJS
+**Technology:** ReactJS
 
 **Deliverable:** A user-friendly web interface that displays the PlantUML diagrams based on user input.
 
