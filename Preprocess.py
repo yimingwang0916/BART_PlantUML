@@ -2,16 +2,14 @@ import json
 import pandas as pd
 import re
 import torch
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
-from datasets import Dataset, load_metric
+from transformers import BartTokenizer, BartForConditionalGeneration, Trainer, TrainingArguments
+from datasets import Dataset
 
 # Load data from Parquet file
 data = pd.read_parquet("/content/plantuml_generation/data/train-00000-of-00001-d16ae9e62c18f5c6.parquet")
 
 # Extract descriptions from the data
 descriptions = data["text"].tolist()
-print(type(descriptions))
-print(len(descriptions))
 
 # Use a subset of the data for faster training
 subset_size = 1000  # Use a smaller subset for both training and evaluation
@@ -157,8 +155,5 @@ with open(output_file, 'w') as f:
     json.dump({"train_plantuml_codes": train_plantuml_codes, "eval_plantuml_codes": eval_plantuml_codes}, f)
 
 print("PlantUML code has been saved to", output_file)
-
-# Uncomment for debugging
-# print(train_descriptions[0])
 print('-----------------------')
-# print(train_plantuml_codes[0])
+
